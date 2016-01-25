@@ -103,9 +103,6 @@ def parse_request_params(request):
 
 class AutoendpointHandler(ErrorLogger, cyclone.web.RequestHandler):
     """Common overrides for Autoendpoint handlers"""
-    cors_methods = ""
-    cors_request_headers = []
-    cors_response_headers = []
 
     #############################################################
     #                    Cyclone API Methods
@@ -120,14 +117,6 @@ class AutoendpointHandler(ErrorLogger, cyclone.web.RequestHandler):
 
     def prepare(self):
         """Common request preparation"""
-        if self.ap_settings.cors:
-            self.set_header("Access-Control-Allow-Origin", "*")
-            self.set_header("Access-Control-Allow-Methods",
-                            self.cors_methods)
-            self.set_header("Access-Control-Allow-Headers",
-                            ",".join(self.cors_request_headers))
-            self.set_header("Access-Control-Expose-Headers",
-                            ",".join(self.cors_response_headers))
 
     #############################################################
     #                    Cyclone HTTP Methods
@@ -255,8 +244,6 @@ class AutoendpointHandler(ErrorLogger, cyclone.web.RequestHandler):
 
 
 class MessageHandler(AutoendpointHandler):
-    cors_methods = "DELETE"
-    cors_response_headers = ["location"]
 
     def _token_valid(self, result, func):
         """Handles valid token processing, then dispatches to supplied
@@ -299,11 +286,6 @@ class MessageHandler(AutoendpointHandler):
 
 
 class EndpointHandler(AutoendpointHandler):
-    cors_methods = "POST,PUT"
-    cors_request_headers = ["content-encoding", "encryption",
-                            "crypto-key",
-                            "encryption-key", "content-type"]
-    cors_response_headers = ["location"]
 
     #############################################################
     #                    Cyclone HTTP Methods
@@ -438,7 +420,6 @@ class EndpointHandler(AutoendpointHandler):
 
 
 class RegistrationHandler(AutoendpointHandler):
-    cors_methods = "POST,PUT,DELETE"
     _base_tags = []
 
     def base_tags(self):

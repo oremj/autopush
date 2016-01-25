@@ -71,7 +71,6 @@ class AutopushSettings(object):
                  # Reflected up from UDP Router
                  wake_timeout=0,
                  env='development',
-                 enable_cors=False,
                  s3_bucket=DEFAULT_BUCKET,
                  senderid_expry=SENDERID_EXPRY,
                  senderid_list={},
@@ -161,9 +160,6 @@ class AutopushSettings(object):
 
         # Run preflight check
         preflight_check(self.storage, self.router)
-
-        # CORS
-        self.cors = enable_cors
 
         # Force timeout in idle seconds
         self.wake_timeout = wake_timeout

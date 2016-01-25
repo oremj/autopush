@@ -127,6 +127,8 @@ def obsolete_args(parser):
     parser.add_argument('--external_router', action="store_true",
                         help='OBSOLETE')
     parser.add_argument('--max_message_size', type=int, help="OBSOLETE")
+    parser.add_argument('--no_cors', help='OBSOLETE',
+                        action="store_true")
 
 
 def add_external_router_args(parser):
@@ -254,9 +256,6 @@ def _parse_endpoint(sysargs, use_files=True):
                         dest='config_file', is_config_file=True)
     parser.add_argument('-p', '--port', help='Public HTTP Endpoint Port',
                         type=int, default=8082, env_var="PORT")
-    parser.add_argument('--no_cors', help='Disallow CORS PUTs for update.',
-                        action="store_true",
-                        default=False, env_var='ALLOW_CORS')
     parser.add_argument('--auth_key', help='Bearer Token source key',
                         type=str, default=[], env_var='AUTH_KEY',
                         action="append")
@@ -457,7 +456,6 @@ def endpoint_main(sysargs=None, use_files=True):
         endpoint_scheme=args.endpoint_scheme,
         endpoint_hostname=args.endpoint_hostname or args.hostname,
         endpoint_port=args.endpoint_port,
-        enable_cors=not args.no_cors,
         s3_bucket=args.s3_bucket,
         senderid_expry=args.senderid_expry,
         senderid_list=senderid_list,
